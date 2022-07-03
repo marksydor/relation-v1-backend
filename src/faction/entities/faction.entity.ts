@@ -1,11 +1,13 @@
 import { AssetsEntity } from 'src/assets/entities/assets.entity';
 import { CharacterEntity } from 'src/character/entities/character.entity';
+import { WorldEntity } from 'src/world/entities/world.enitity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -31,6 +33,9 @@ export class FactionEntity {
 
   @OneToOne(() => AssetsEntity)
   mainImg?: AssetsEntity;
+
+  @ManyToOne(() => WorldEntity)
+  world: WorldEntity;
 
   @ManyToMany(() => FactionTypeEntity, (factionType) => factionType.factions)
   @JoinTable()

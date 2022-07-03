@@ -1,7 +1,9 @@
+import { WorldEntity } from 'src/world/entities/world.enitity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,6 +24,9 @@ export class AssetsEntity {
 
   @Column()
   mimetype: string;
+
+  @ManyToOne(() => WorldEntity)
+  world: WorldEntity;
 
   @UpdateDateColumn()
   updatedAt: string;

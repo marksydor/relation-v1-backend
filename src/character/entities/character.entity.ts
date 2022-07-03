@@ -4,12 +4,14 @@ import { FactionEntity } from 'src/faction/entities/faction.entity';
 import { LifeEventEntity } from 'src/life-event/entities/life-event.entity';
 import { PlaceEntity } from 'src/place/entities/place.entity';
 import { RelationEntity } from 'src/relation/entities/relation.entity';
+import { WorldEntity } from 'src/world/entities/world.enitity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -68,6 +70,9 @@ export class CharacterEntity {
 
   @ManyToMany(() => AssetsEntity)
   additionalImgs: AssetsEntity[];
+
+  @ManyToOne(() => WorldEntity)
+  world: WorldEntity;
 
   @UpdateDateColumn()
   updatedAt: string;

@@ -1,11 +1,13 @@
 import { AssetsEntity } from 'src/assets/entities/assets.entity';
 import { CharacterEntity } from 'src/character/entities/character.entity';
 import { LifeEventEntity } from 'src/life-event/entities/life-event.entity';
+import { WorldEntity } from 'src/world/entities/world.enitity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToMany,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -22,6 +24,12 @@ export class PlaceEntity {
   @Column()
   description: string;
 
+  @ManyToOne(() => WorldEntity)
+  world: WorldEntity;
+
+  @OneToOne(() => AssetsEntity)
+  mainImg?: AssetsEntity;
+
   @UpdateDateColumn()
   updatedAt: string;
 
@@ -33,7 +41,4 @@ export class PlaceEntity {
 
   @ManyToMany(() => CharacterEntity, (character) => character.visitedPlaces)
   characters: CharacterEntity[];
-
-  @OneToOne(() => AssetsEntity)
-  mainImg?: AssetsEntity;
 }

@@ -1,5 +1,7 @@
 import { AssetsEntity } from 'src/assets/entities/assets.entity';
 import { CharacterEntity } from 'src/character/entities/character.entity';
+import { LifeEventEntity } from 'src/life-event/entities/life-event.entity';
+import { WorldEntity } from 'src/world/entities/world.enitity';
 import {
   Column,
   CreateDateColumn,
@@ -42,6 +44,12 @@ export class RelationEntity {
   @CreateDateColumn()
   createdAt: string;
 
+  @ManyToOne(() => WorldEntity)
+  world: WorldEntity;
+
+  @OneToOne(() => AssetsEntity)
+  mainImg?: AssetsEntity;
+
   @ManyToMany(
     () => RelationTypeEntity,
     (relationType) => relationType.relations,
@@ -49,7 +57,7 @@ export class RelationEntity {
   @JoinTable()
   types: RelationTypeEntity[];
 
-  @OneToOne(() => AssetsEntity)
-  mainImg?: AssetsEntity;
+  @ManyToMany(() => LifeEventEntity, (lifeEvent) => lifeEvent.relations)
+  @JoinTable()
+  lifeEvents: LifeEventEntity[];
 }
-Column();

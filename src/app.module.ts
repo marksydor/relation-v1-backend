@@ -13,6 +13,7 @@ import { FactionModule } from './faction/faction.module';
 import { LifeEventModule } from './life-event/life-event.module';
 
 import { join } from 'path';
+import { WorldModule } from './world/world.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { join } from 'path';
     PlaceModule,
     FactionModule,
     LifeEventModule,
+    WorldModule,
   ],
   controllers: [AppController],
   providers: [AppService],
