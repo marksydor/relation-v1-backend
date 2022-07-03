@@ -15,9 +15,10 @@ import {
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { PaginationDto } from 'src/common-dto/pagination.dto';
+import { PaginationDto } from 'src/shared/dto/pagination.dto';
 import { CharacterService } from './character.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
@@ -31,6 +32,16 @@ export class CharacterController {
   @ApiOkResponse({
     description: 'List of Characters and count',
     type: Promise<[CharacterEntity[], number]>,
+  })
+  @ApiQuery({
+    name: 'skip',
+    type: 'number',
+    description: 'number of records to skip',
+  })
+  @ApiQuery({
+    name: 'take',
+    type: 'number',
+    description: 'number of records to take',
   })
   @Get()
   async findAll(

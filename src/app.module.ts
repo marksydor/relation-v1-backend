@@ -6,14 +6,21 @@ import { AppService } from './app.service';
 import { envValidation } from './env.validation';
 import { CharacterModule } from './character/character.module';
 import { RelationModule } from './relation/relation.module';
-import { RelationTypeModule } from './relation-type/relation-type.module';
 import { AssetsModule } from './assets/assets.module';
 import { PlaceModule } from './place/place.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { FactionModule } from './faction/faction.module';
+import { LifeEventModule } from './life-event/life-event.module';
+
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       validationSchema: envValidation,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'upload'),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -27,9 +34,10 @@ import { PlaceModule } from './place/place.module';
     }),
     CharacterModule,
     RelationModule,
-    RelationTypeModule,
     AssetsModule,
     PlaceModule,
+    FactionModule,
+    LifeEventModule,
   ],
   controllers: [AppController],
   providers: [AppService],

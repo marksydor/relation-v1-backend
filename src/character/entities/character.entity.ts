@@ -1,8 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { AssetsEntity } from 'src/assets/entities/assets.entity';
+import { FactionEntity } from 'src/faction/entities/faction.entity';
+import { LifeEventEntity } from 'src/life-event/entities/life-event.entity';
+import { PlaceEntity } from 'src/place/entities/place.entity';
+import { RelationEntity } from 'src/relation/entities/relation.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -51,9 +60,36 @@ export class CharacterEntity {
   @Column()
   age: number;
 
+  @OneToOne(() => AssetsEntity)
+  mainImg?: AssetsEntity;
+
+  @OneToOne(() => AssetsEntity)
+  secondaryImg?: AssetsEntity;
+
+  @ManyToMany(() => AssetsEntity)
+  additionalImgs: AssetsEntity[];
+
   @UpdateDateColumn()
   updatedAt: string;
 
   @CreateDateColumn()
   createdAt: string;
+
+  @ManyToMany(() => FactionEntity, (faction) => faction.characters)
+  @JoinTable()
+  factions: FactionEntity;
+
+  @ManyToMany(() => LifeEventEntity, (lifeEvent) => lifeEvent.characters)
+  @JoinTable()
+  lifeEvents: LifeEventEntity[];
+
+  @ManyToMany(() => PlaceEntity, (place) => place.characters)
+  @JoinTable()
+  visitedPlaces: PlaceEntity[];
+
+  @ManyToMany(() => RelationEntity, (relation) => relation.firstCharacter)
+  @JoinTable()
+  @ManyToMany(() => RelationEntity, (relation) => relation.secondCharacter)
+  @JoinTable()
+  relations: RelationEntity[];
 }

@@ -1,18 +1,18 @@
 import { AssetsEntity } from 'src/assets/entities/assets.entity';
-import { CharacterEntity } from 'src/character/entities/character.entity';
-import { LifeEventEntity } from 'src/life-event/entities/life-event.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { RelationEntity } from './relation.entity';
 
-@Entity('places')
-export class PlaceEntity {
+@Entity('RelationTypes')
+export class RelationTypeEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,17 +22,14 @@ export class PlaceEntity {
   @Column()
   description: string;
 
+  @ManyToMany(() => RelationEntity, (relation) => relation.types)
+  relations: RelationEntity[];
+
   @UpdateDateColumn()
   updatedAt: string;
 
   @CreateDateColumn()
   createdAt: string;
-
-  @ManyToMany(() => LifeEventEntity, (event) => event.places)
-  lifeEvents: LifeEventEntity[];
-
-  @ManyToMany(() => CharacterEntity, (character) => character.visitedPlaces)
-  characters: CharacterEntity[];
 
   @OneToOne(() => AssetsEntity)
   mainImg?: AssetsEntity;
