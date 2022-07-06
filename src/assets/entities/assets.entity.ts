@@ -25,6 +25,9 @@ export class AssetsEntity {
   @Column()
   mimetype: string;
 
+  @Column()
+  encoding: string;
+
   @ManyToOne(() => WorldEntity)
   world: WorldEntity;
 

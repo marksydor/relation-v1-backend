@@ -41,11 +41,13 @@ export class CharacterController {
   @ApiQuery({
     name: 'skip',
     type: 'number',
+    required: false,
     description: 'number of records to skip',
   })
   @ApiQuery({
     name: 'take',
     type: 'number',
+    required: false,
     description: 'number of records to take',
   })
   @Get()
@@ -73,20 +75,28 @@ export class CharacterController {
   })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'mainImg', maxCount: 1 },
-      { name: 'secondaryImg', maxCount: 1 },
-      { name: 'additionalImgs', maxCount: 5 },
-    ]),
+    FileFieldsInterceptor(
+      [
+        { name: 'mainImg', maxCount: 1 },
+        { name: 'secondaryImg', maxCount: 1 },
+        { name: 'additionalImgs', maxCount: 5 },
+      ],
+      { storage: FileWorker.getDiskStorageOptions() },
+    ),
   )
   @HttpCode(201)
   @Post()
   async create(
     @Body() dto: CreateCharacterDto,
-    @UploadedFiles() files,
+    @UploadedFiles()
+    files: {
+      mainImg: Express.Multer.File[];
+      secondaryImg: Express.Multer.File[];
+      additionalImgs: Express.Multer.File[];
+    },
   ): Promise<CharacterEntity> {
     console.log(files);
-    return this.characterService.create(dto);
+    return this.characterService.create({ ...dto, ...files });
   }
 
   @ApiOkResponse({
@@ -96,6 +106,16 @@ export class CharacterController {
   @ApiForbiddenResponse({
     description: 'When character with this id not founded',
   })
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'mainImg', maxCount: 1 },
+        { name: 'secondaryImg', maxCount: 1 },
+        { name: 'additionalImgs', maxCount: 5 },
+      ],
+      { storage: FileWorker.getDiskStorageOptions() },
+    ),
+  )
   @Patch('id')
   async update(
     @Param(':id', new ParseUUIDPipe()) id: string,

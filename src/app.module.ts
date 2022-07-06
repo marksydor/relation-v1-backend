@@ -22,6 +22,7 @@ import { WorldModule } from './world/world.module';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'upload'),
+      renderPath: '/public',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',

@@ -9,6 +9,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -62,13 +63,16 @@ export class CharacterEntity {
   @Column()
   age: number;
 
-  @OneToOne(() => AssetsEntity)
+  @OneToOne(() => AssetsEntity, { eager: true })
+  @JoinColumn()
   mainImg?: AssetsEntity;
 
-  @OneToOne(() => AssetsEntity)
+  @OneToOne(() => AssetsEntity, { eager: true })
+  @JoinColumn()
   secondaryImg?: AssetsEntity;
 
-  @ManyToMany(() => AssetsEntity)
+  @ManyToMany(() => AssetsEntity, { eager: true })
+  @JoinTable()
   additionalImgs?: AssetsEntity[];
 
   @ManyToOne(() => WorldEntity, (world) => world.characters)
