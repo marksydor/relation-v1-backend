@@ -10,19 +10,24 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
+  ApiConsumes,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+import { FileWorker } from 'src/shared/classes/file-worker.class';
 import { PaginationDto } from 'src/shared/dto/pagination.dto';
 import { CharacterService } from './character.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { CharacterEntity } from './entities/character.entity';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Character', 'CRUD')
 @Controller('character')
@@ -66,9 +71,21 @@ export class CharacterController {
     description: 'Created character entity',
     type: CharacterEntity,
   })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'mainImg', maxCount: 1 },
+      { name: 'secondaryImg', maxCount: 1 },
+      { name: 'additionalImgs', maxCount: 5 },
+    ]),
+  )
   @HttpCode(201)
   @Post()
-  async create(@Body() dto: CreateCharacterDto): Promise<CharacterEntity> {
+  async create(
+    @Body() dto: CreateCharacterDto,
+    @UploadedFiles() files,
+  ): Promise<CharacterEntity> {
+    console.log(files);
     return this.characterService.create(dto);
   }
 
@@ -77,7 +94,7 @@ export class CharacterController {
     type: CharacterEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When chacter with this id not founded',
+    description: 'When character with this id not founded',
   })
   @Patch('id')
   async update(

@@ -69,9 +69,9 @@ export class CharacterEntity {
   secondaryImg?: AssetsEntity;
 
   @ManyToMany(() => AssetsEntity)
-  additionalImgs: AssetsEntity[];
+  additionalImgs?: AssetsEntity[];
 
-  @ManyToOne(() => WorldEntity)
+  @ManyToOne(() => WorldEntity, (world) => world.characters)
   world: WorldEntity;
 
   @UpdateDateColumn()

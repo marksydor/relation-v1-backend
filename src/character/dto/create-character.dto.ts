@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString, MaxLength } from 'class-validator';
+import { Binary } from 'typeorm';
 
 export class CreateCharacterDto {
   @ApiProperty({
@@ -40,4 +41,28 @@ export class CreateCharacterDto {
   })
   @IsNumber()
   readonly age: number;
+
+  @ApiProperty({
+    format: 'binary',
+    type: 'file',
+    isArray: true,
+    required: false,
+  })
+  mainImg?: Express.Multer.File[];
+
+  @ApiProperty({
+    format: 'binary',
+    type: 'file',
+    isArray: true,
+    required: false,
+  })
+  secondaryImg?: Express.Multer.File[];
+
+  @ApiProperty({
+    format: 'binary',
+    type: 'file',
+    isArray: true,
+    required: false,
+  })
+  additionalImgs?: Express.Multer.File[];
 }

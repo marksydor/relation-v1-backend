@@ -26,7 +26,8 @@ export class CharacterService {
   }
 
   async create(dto: CreateCharacterDto): Promise<CharacterEntity> {
-    const character = this.repo.create(dto);
+    const { mainImg, secondaryImg, additionalImgs, ...otherData } = dto;
+    const character = this.repo.create(otherData);
     return this.repo.save(character);
   }
 
@@ -34,7 +35,8 @@ export class CharacterService {
     id: string,
     dto: UpdateCharacterDto,
   ): Promise<CharacterEntity | NotFoundException> {
-    const character = await this.repo.preload({ id, ...dto });
+    const { mainImg, secondaryImg, additionalImgs, ...otherData } = dto;
+    const character = await this.repo.preload({ id, ...otherData });
     if (!character) {
       throw new NotFoundException(`Character #${id} not found`);
     }

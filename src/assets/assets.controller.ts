@@ -9,10 +9,10 @@ import { FileWorker } from 'src/shared/classes/file-worker.class';
 
 @Controller('assets')
 export class AssetsController {
-  constructor(private readonly assetService) {}
+  constructor() {}
 
   @Post('test-file-upload')
-  @UseInterceptors(FileWorker.getFileInterceptor('file'))
+  @UseInterceptors(FileWorker.getFileInterceptor({ name: 'file' }))
   async FileUploud(@UploadedFile() file) {
     console.log(file);
     return 'succes';
