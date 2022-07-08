@@ -18,6 +18,9 @@ export class FactionTypeEntity {
   @Column()
   name: string;
 
+  @Column()
+  description: string;
+
   @UpdateDateColumn()
   updatedAt: string;
 
