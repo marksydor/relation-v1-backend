@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { CharacterEntity } from './entities/character.entity';
+import { CharacterImgs } from './interfaces/character-imgs.iterface';
 
 @Injectable()
 export class CharacterService {
@@ -17,7 +18,8 @@ export class CharacterService {
     private assetsService: AssetsService,
   ) {}
 
-  private async saveImgs(
+  // deprecated
+  /* private async saveImgs(
     character: CharacterEntity,
     mainImg: Express.Multer.File,
     secondaryImg: Express.Multer.File,
@@ -63,7 +65,7 @@ export class CharacterService {
       ...character,
       ...transformedResultImgs,
     });
-  }
+  } */
 
   async findOne(id: string): Promise<CharacterEntity | NotFoundException> {
     const character = await this.repo.findOne({ where: { id } });
@@ -80,10 +82,18 @@ export class CharacterService {
   async create(dto: CreateCharacterDto): Promise<CharacterEntity> {
     const { mainImg, secondaryImg, additionalImgs, ...otherData } = dto;
     const character = this.repo.create(otherData);
-    const saved = await this.repo.save(character);
-    this.saveImgs(saved, mainImg[0], secondaryImg[0], additionalImgs);
+    const imgs: CharacterImgs = {};
+    if (mainImg) imgs.mainImg = this.assetsService.createInstance(mainImg[0]);
+    if (secondaryImg)
+      imgs.secondaryImg = this.assetsService.createInstance(secondaryImg[0]);
+    if (additionalImgs)
+      imgs.additionalImgs =
+        this.assetsService.createManyInstances(additionalImgs);
 
-    return saved;
+    return this.repo.save({
+      ...character,
+      ...imgs,
+    });
   }
 
   async update(
@@ -91,7 +101,19 @@ export class CharacterService {
     dto: UpdateCharacterDto,
   ): Promise<CharacterEntity | NotFoundException> {
     const { mainImg, secondaryImg, additionalImgs, ...otherData } = dto;
-    const character = await this.repo.preload({ id, ...otherData });
+    const imgs: CharacterImgs = {};
+    if (mainImg) imgs.mainImg = this.assetsService.createInstance(mainImg[0]);
+    if (secondaryImg)
+      imgs.secondaryImg = this.assetsService.createInstance(secondaryImg[0]);
+    if (additionalImgs)
+      imgs.additionalImgs =
+        this.assetsService.createManyInstances(additionalImgs);
+
+    const character = await this.repo.preload({
+      id,
+      ...otherData,
+      ...imgs,
+    });
     if (!character) {
       throw new NotFoundException(`Character #${id} not found`);
     }

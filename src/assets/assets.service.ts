@@ -50,4 +50,12 @@ export class AssetsService {
     const asset = await this.findOne(id);
     return this.assetsRepo.remove(asset as AssetsEntity);
   }
+
+  createInstance(dto: CreateAssetDto) {
+    return this.assetsRepo.create(dto);
+  }
+
+  createManyInstances(dto: Array<CreateAssetDto>) {
+    return this.assetsRepo.create(dto);
+  }
 }

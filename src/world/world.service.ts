@@ -7,11 +7,14 @@ import { FindWorldParamsDto } from './dto/find-world-params.dto';
 import { WorldEntity } from './entities/world.enitity';
 import { Like } from 'typeorm';
 import { UpdateWorldDto } from './dto/update-world.dto';
+import { WorldImgs } from './iterfaces/world-imgs.interface';
+import { AssetsService } from 'src/assets/assets.service';
 
 @Injectable()
 export class WorldService {
   constructor(
     @InjectRepository(WorldEntity) private worldRepo: Repository<WorldEntity>,
+    private assetsService: AssetsService,
   ) {}
 
   async findOne(id: string): Promise<WorldEntity | NotFoundException> {
@@ -39,15 +42,31 @@ export class WorldService {
   }
 
   async create(dto: CreateWorldDto): Promise<WorldEntity> {
-    const world = this.worldRepo.create(dto);
-    return this.worldRepo.save(world);
+    const { mainImg, additionalImgs, ...otherData } = dto;
+    const imgs: WorldImgs = {};
+
+    if (mainImg) imgs.mainImg = this.assetsService.createInstance(mainImg[0]);
+    if (additionalImgs)
+      imgs.additionalImgs =
+        this.assetsService.createManyInstances(additionalImgs);
+
+    const world = this.worldRepo.create(otherData);
+    return this.worldRepo.save({ ...world, ...imgs });
   }
 
   async update(
     id: string,
     dto: UpdateWorldDto,
   ): Promise<WorldEntity | NotFoundException> {
-    const world = await this.worldRepo.preload({ id, ...dto });
+    const { mainImg, additionalImgs, ...otherData } = dto;
+    const imgs: WorldImgs = {};
+
+    if (mainImg) imgs.mainImg = this.assetsService.createInstance(mainImg[0]);
+    if (additionalImgs)
+      imgs.additionalImgs =
+        this.assetsService.createManyInstances(additionalImgs);
+
+    const world = await this.worldRepo.preload({ id, ...otherData, ...imgs });
     if (!world) {
       throw new NotFoundException(`World #${id} not found`);
     }

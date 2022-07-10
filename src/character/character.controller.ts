@@ -29,7 +29,7 @@ import { UpdateCharacterDto } from './dto/update-character.dto';
 import { CharacterEntity } from './entities/character.entity';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
-@ApiTags('Character', 'CRUD')
+@ApiTags('Character')
 @Controller('character')
 export class CharacterController {
   constructor(private characterService: CharacterService) {}

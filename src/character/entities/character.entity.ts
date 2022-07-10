@@ -63,15 +63,15 @@ export class CharacterEntity {
   @Column()
   age: number;
 
-  @OneToOne(() => AssetsEntity, { eager: true })
+  @OneToOne(() => AssetsEntity, { eager: true, cascade: true })
   @JoinColumn()
   mainImg?: AssetsEntity;
 
-  @OneToOne(() => AssetsEntity, { eager: true })
+  @OneToOne(() => AssetsEntity, { eager: true, cascade: true })
   @JoinColumn()
   secondaryImg?: AssetsEntity;
 
-  @ManyToMany(() => AssetsEntity, { eager: true })
+  @ManyToMany(() => AssetsEntity, { eager: true, cascade: true })
   @JoinTable()
   additionalImgs?: AssetsEntity[];
 

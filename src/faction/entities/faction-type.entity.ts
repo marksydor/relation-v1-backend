@@ -21,15 +21,15 @@ export class FactionTypeEntity {
   @Column()
   description: string;
 
+  @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
+  mainImg?: AssetsEntity;
+
   @UpdateDateColumn()
   updatedAt: string;
 
   @CreateDateColumn()
   createdAt: string;
 
-  @ManyToMany(() => FactionEntity, (faction) => faction.types)
+  @ManyToMany(() => FactionEntity, (faction) => faction.types, {})
   factions: FactionEntity[];
-
-  @OneToOne(() => AssetsEntity)
-  mainImg?: AssetsEntity;
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MaxLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateWorldDto {
   @ApiProperty({
@@ -17,4 +17,24 @@ export class CreateWorldDto {
   })
   @IsString()
   description: string;
+
+  @ApiProperty({
+    format: 'binary',
+    type: 'file',
+    isArray: true,
+    required: false,
+    maxItems: 1,
+  })
+  @IsOptional()
+  mainImg?: Express.Multer.File[];
+
+  @ApiProperty({
+    format: 'binary',
+    type: 'file',
+    isArray: true,
+    required: false,
+    maxItems: 5,
+  })
+  @IsOptional()
+  additionalImgs?: Express.Multer.File[];
 }

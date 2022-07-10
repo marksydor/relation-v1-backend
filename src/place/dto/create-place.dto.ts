@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID, MaxLength } from 'class-validator';
+import { IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
 
 export class CreatePlaceDto {
   @ApiProperty({
@@ -24,4 +24,14 @@ export class CreatePlaceDto {
   })
   @IsUUID()
   worldId: string;
+
+  @ApiProperty({
+    format: 'binary',
+    type: 'file',
+    isArray: true,
+    required: false,
+    maxItems: 1,
+  })
+  @IsOptional()
+  mainImg?: Express.Multer.File[];
 }

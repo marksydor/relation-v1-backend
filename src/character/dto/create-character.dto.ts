@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, MaxLength } from 'class-validator';
+import { IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
 import { Binary } from 'typeorm';
 
 export class CreateCharacterDto {
@@ -47,7 +47,9 @@ export class CreateCharacterDto {
     type: 'file',
     isArray: true,
     required: false,
+    maxItems: 1,
   })
+  @IsOptional()
   mainImg?: Express.Multer.File[];
 
   @ApiProperty({
@@ -55,7 +57,9 @@ export class CreateCharacterDto {
     type: 'file',
     isArray: true,
     required: false,
+    maxItems: 1,
   })
+  @IsOptional()
   secondaryImg?: Express.Multer.File[];
 
   @ApiProperty({
@@ -63,6 +67,8 @@ export class CreateCharacterDto {
     type: 'file',
     isArray: true,
     required: false,
+    maxItems: 5,
   })
+  @IsOptional()
   additionalImgs?: Express.Multer.File[];
 }

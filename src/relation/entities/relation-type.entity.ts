@@ -22,6 +22,9 @@ export class RelationTypeEntity {
   @Column()
   description: string;
 
+  @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
+  mainImg?: AssetsEntity;
+
   @ManyToMany(() => RelationEntity, (relation) => relation.types)
   relations: RelationEntity[];
 
@@ -30,7 +33,4 @@ export class RelationTypeEntity {
 
   @CreateDateColumn()
   createdAt: string;
-
-  @OneToOne(() => AssetsEntity)
-  mainImg?: AssetsEntity;
 }

@@ -26,11 +26,8 @@ export class LifeEventEntity {
   @Column()
   description: string;
 
-  @UpdateDateColumn()
-  updatedAt: string;
-
-  @CreateDateColumn()
-  createdAt: string;
+  @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
+  mainImg?: AssetsEntity;
 
   @ManyToMany(() => PlaceEntity, (place) => place.lifeEvents)
   @JoinTable()
@@ -45,6 +42,9 @@ export class LifeEventEntity {
   @ManyToMany(() => RelationEntity, (relation) => relation.lifeEvents)
   relations: RelationEntity[];
 
-  @OneToOne(() => AssetsEntity)
-  mainImg?: AssetsEntity;
+  @UpdateDateColumn()
+  updatedAt: string;
+
+  @CreateDateColumn()
+  createdAt: string;
 }

@@ -27,18 +27,18 @@ export class PlaceEntity {
   @ManyToOne(() => WorldEntity)
   world: WorldEntity;
 
-  @OneToOne(() => AssetsEntity)
+  @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
   mainImg?: AssetsEntity;
-
-  @UpdateDateColumn()
-  updatedAt: string;
-
-  @CreateDateColumn()
-  createdAt: string;
 
   @ManyToMany(() => LifeEventEntity, (event) => event.places)
   lifeEvents: LifeEventEntity[];
 
   @ManyToMany(() => CharacterEntity, (character) => character.visitedPlaces)
   characters: CharacterEntity[];
+
+  @UpdateDateColumn()
+  updatedAt: string;
+
+  @CreateDateColumn()
+  createdAt: string;
 }

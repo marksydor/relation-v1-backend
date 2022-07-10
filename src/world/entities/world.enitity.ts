@@ -26,14 +26,8 @@ export class WorldEntity {
   @Column()
   description: string;
 
-  @OneToOne(() => AssetsEntity)
+  @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
   mainImg?: AssetsEntity;
-
-  @UpdateDateColumn()
-  updatedAt: string;
-
-  @CreateDateColumn()
-  createdAt: string;
 
   @OneToMany(() => PlaceEntity, (place) => place.world)
   places: PlaceEntity[];
@@ -50,6 +44,15 @@ export class WorldEntity {
   @OneToMany(() => CharacterEntity, (character) => character.world)
   characters: CharacterEntity[];
 
-  @OneToMany(() => AssetsEntity, (asset) => asset.world)
+  @OneToMany(() => AssetsEntity, (asset) => asset.world, {
+    cascade: true,
+    eager: true,
+  })
   assets: AssetsEntity[];
+
+  @UpdateDateColumn()
+  updatedAt: string;
+
+  @CreateDateColumn()
+  createdAt: string;
 }

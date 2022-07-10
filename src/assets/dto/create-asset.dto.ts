@@ -3,4 +3,5 @@ export class CreateAssetDto {
   path: string;
   filename: string;
   mimetype: string;
+  encoding: string;
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateRelationDto {
   @ApiProperty({
@@ -50,4 +50,14 @@ export class CreateRelationDto {
   })
   @IsUUID()
   worldId: string;
+
+  @ApiProperty({
+    format: 'binary',
+    type: 'file',
+    isArray: true,
+    required: false,
+    maxItems: 1,
+  })
+  @IsOptional()
+  mainImg?: Express.Multer.File[];
 }

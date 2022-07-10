@@ -25,22 +25,24 @@ export class FactionEntity {
   @Column()
   description: string;
 
-  @UpdateDateColumn()
-  updatedAt: string;
-
-  @CreateDateColumn()
-  createdAt: string;
-
-  @OneToOne(() => AssetsEntity)
+  @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
   mainImg?: AssetsEntity;
 
   @ManyToOne(() => WorldEntity)
   world: WorldEntity;
 
-  @ManyToMany(() => FactionTypeEntity, (factionType) => factionType.factions)
+  @ManyToMany(() => FactionTypeEntity, (factionType) => factionType.factions, {
+    cascade: true,
+  })
   @JoinTable()
   types: FactionTypeEntity[];
 
   @ManyToMany(() => CharacterEntity, (character) => character.factions)
   characters: CharacterEntity[];
+
+  @UpdateDateColumn()
+  updatedAt: string;
+
+  @CreateDateColumn()
+  createdAt: string;
 }
