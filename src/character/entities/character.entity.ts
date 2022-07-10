@@ -16,6 +16,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -56,6 +57,16 @@ export class CharacterEntity {
   @Column()
   bio: string;
 
+  @ManyToOne(() => WorldEntity, (world) => world.characters)
+  world: WorldEntity;
+
+  @ApiProperty({
+    description: 'World id',
+    example: '123e4567-e89b-12d3-a456-426614174092',
+  })
+  @RelationId((character: CharacterEntity) => character.world)
+  worldId: string;
+
   @ApiProperty({
     example: 16,
     description: 'Age of character',
@@ -63,26 +74,30 @@ export class CharacterEntity {
   @Column()
   age: number;
 
+  @ApiProperty({
+    description: 'Main image of character',
+    type: () => AssetsEntity,
+  })
   @OneToOne(() => AssetsEntity, { eager: true, cascade: true })
   @JoinColumn()
   mainImg?: AssetsEntity;
 
+  @ApiProperty({
+    description: 'Secondary image of character',
+    type: () => AssetsEntity,
+  })
   @OneToOne(() => AssetsEntity, { eager: true, cascade: true })
   @JoinColumn()
   secondaryImg?: AssetsEntity;
 
+  @ApiProperty({
+    description: 'Additional images of character',
+    type: () => AssetsEntity,
+    isArray: true,
+  })
   @ManyToMany(() => AssetsEntity, { eager: true, cascade: true })
   @JoinTable()
   additionalImgs?: AssetsEntity[];
-
-  @ManyToOne(() => WorldEntity, (world) => world.characters)
-  world: WorldEntity;
-
-  @UpdateDateColumn()
-  updatedAt: string;
-
-  @CreateDateColumn()
-  createdAt: string;
 
   @ManyToMany(() => FactionEntity, (faction) => faction.characters)
   @JoinTable()
@@ -101,4 +116,10 @@ export class CharacterEntity {
   @ManyToMany(() => RelationEntity, (relation) => relation.secondCharacter)
   @JoinTable()
   relations: RelationEntity[];
+
+  @UpdateDateColumn()
+  updatedAt: string;
+
+  @CreateDateColumn()
+  createdAt: string;
 }

@@ -57,10 +57,12 @@ export class CharacterController {
     return this.characterService.findAll(query);
   }
 
-  @ApiOkResponse({ description: 'Character entity by id' })
-  @ApiForbiddenResponse({
-    description: 'When chacter with this id not founded',
+  @ApiOkResponse({
+    description: 'Character entity by id',
     type: CharacterEntity,
+  })
+  @ApiForbiddenResponse({
+    description: 'When chacter with this id not found',
   })
   @Get(':id')
   async findOne(
@@ -104,7 +106,7 @@ export class CharacterController {
     type: CharacterEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When character with this id not founded',
+    description: 'When character with this id not found',
   })
   @UseInterceptors(
     FileFieldsInterceptor(
@@ -129,7 +131,7 @@ export class CharacterController {
     type: CharacterEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When chacter with this id not founded',
+    description: 'When chacter with this id not found',
   })
   @Delete(':id')
   async remove(
