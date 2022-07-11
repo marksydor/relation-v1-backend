@@ -48,16 +48,16 @@ export class LifeEventEntity {
   @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
   mainImg?: AssetsEntity;
 
-  @ManyToMany(() => PlaceEntity, (place) => place.lifeEvents)
-  @JoinTable()
-  places: PlaceEntity[];
-
   @ApiProperty({
     description: 'World id',
     example: '123e4567-e89b-12d3-a456-426614174092',
   })
   @RelationId((lifeEvent: LifeEventEntity) => lifeEvent.world)
   worldId: string;
+
+  @ManyToMany(() => PlaceEntity, (place) => place.lifeEvents)
+  @JoinTable()
+  places: PlaceEntity[];
 
   @ManyToOne(() => WorldEntity)
   world: WorldEntity;

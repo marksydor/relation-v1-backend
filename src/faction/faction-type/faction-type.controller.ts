@@ -57,7 +57,10 @@ export class FactionTypeController {
     return this.factionTypeService.findAll(query);
   }
 
-  @ApiOkResponse({ description: 'Faction-type entity by id' })
+  @ApiOkResponse({
+    description: 'Faction-type entity by id',
+    type: FactionTypeEntity,
+  })
   @ApiForbiddenResponse({
     description: 'When faction with this id not found',
   })

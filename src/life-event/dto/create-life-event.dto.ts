@@ -4,7 +4,7 @@ import { IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
 export class CreateLifeEventDto {
   @ApiProperty({
     example: 'Red Wedding',
-    description: 'Name of the event',
+    description: 'Name of the life event',
   })
   @IsString()
   @MaxLength(24)
