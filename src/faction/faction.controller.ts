@@ -57,9 +57,9 @@ export class FactionController {
     return this.factionService.findAll(query);
   }
 
-  @ApiOkResponse({ description: 'Faction entity by id' })
+  @ApiOkResponse({ description: 'Faction entity by id', type: FactionEntity })
   @ApiForbiddenResponse({
-    description: 'When faction with this id not found',
+    description: 'faction with this id not found',
   })
   @Get(':id')
   async findOne(
@@ -95,7 +95,7 @@ export class FactionController {
     type: FactionEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction with this id not found',
+    description: 'faction with this id not found',
   })
   @UseInterceptors(
     FileFieldsInterceptor([{ name: 'mainImg', maxCount: 1 }], {
@@ -115,7 +115,7 @@ export class FactionController {
     type: FactionEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction with this id not found',
+    description: 'faction with this id not found',
   })
   @Delete(':id')
   async remove(

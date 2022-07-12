@@ -22,7 +22,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { FileWorker } from 'src/shared/classes/file-worker.class';
-import { PaginationDto } from 'src/shared/dto/pagination.dto';
 import { CreateLifeEventDto } from './dto/create-life-event.dto';
 import { UpdateLifeEventDto } from './dto/update-life-event.dto';
 import { LifeEventEntity } from './entities/life-event.entity';
@@ -74,7 +73,7 @@ export class LifeEventController {
     type: LifeEventEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction with this id not found',
+    description: 'faction with this id not found',
   })
   @Get(':id')
   async findOne(
@@ -88,14 +87,9 @@ export class LifeEventController {
   })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
-    FileFieldsInterceptor(
-      [
-        { name: 'mainImg', maxCount: 1 },
-        { name: 'secondaryImg', maxCount: 1 },
-        { name: 'additionalImgs', maxCount: 5 },
-      ],
-      { storage: FileWorker.getDiskStorageOptions() },
-    ),
+    FileFieldsInterceptor([{ name: 'mainImg', maxCount: 1 }], {
+      storage: FileWorker.getDiskStorageOptions(),
+    }),
   )
   @HttpCode(201)
   @Post()
@@ -114,7 +108,7 @@ export class LifeEventController {
     type: LifeEventEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction with this id not found',
+    description: 'faction with this id not found',
   })
   @UseInterceptors(
     FileFieldsInterceptor([{ name: 'mainImg', maxCount: 1 }], {
@@ -134,7 +128,7 @@ export class LifeEventController {
     type: LifeEventEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction with this id not found',
+    description: 'faction with this id not found',
   })
   @Delete(':id')
   async remove(

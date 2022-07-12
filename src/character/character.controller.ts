@@ -62,7 +62,7 @@ export class CharacterController {
     type: CharacterEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When chacter with this id not found',
+    description: 'chacter with this id not found',
   })
   @Get(':id')
   async findOne(
@@ -106,7 +106,7 @@ export class CharacterController {
     type: CharacterEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When character with this id not found',
+    description: 'character with this id not found',
   })
   @UseInterceptors(
     FileFieldsInterceptor(
@@ -131,7 +131,7 @@ export class CharacterController {
     type: CharacterEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When chacter with this id not found',
+    description: 'chacter with this id not found',
   })
   @Delete(':id')
   async remove(

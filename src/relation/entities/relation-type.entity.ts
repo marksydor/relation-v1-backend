@@ -29,7 +29,7 @@ export class RelationTypeEntity {
 
   @ApiProperty({
     description: 'Relation type description',
-    example: 'When one character killed anouther',
+    example: 'one character killed anouther',
   })
   @Column()
   description: string;

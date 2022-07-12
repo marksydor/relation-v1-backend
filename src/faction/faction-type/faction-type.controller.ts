@@ -62,7 +62,7 @@ export class FactionTypeController {
     type: FactionTypeEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction with this id not found',
+    description: 'faction with this id not found',
   })
   @Get(':id')
   async findOne(
@@ -98,7 +98,7 @@ export class FactionTypeController {
     type: FactionTypeEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction-type with this id not found',
+    description: 'faction-type with this id not found',
   })
   @UseInterceptors(
     FileFieldsInterceptor([{ name: 'mainImg', maxCount: 1 }], {
@@ -118,7 +118,7 @@ export class FactionTypeController {
     type: FactionTypeEntity,
   })
   @ApiForbiddenResponse({
-    description: 'When faction-type with this id not found',
+    description: 'faction-type with this id not found',
   })
   @Delete(':id')
   async remove(
