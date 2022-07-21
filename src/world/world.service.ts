@@ -7,7 +7,7 @@ import { FindWorldParamsDto } from './dto/find-world-params.dto';
 import { WorldEntity } from './entities/world.enitity';
 import { Like } from 'typeorm';
 import { UpdateWorldDto } from './dto/update-world.dto';
-import { WorldImgs } from './iterfaces/world-imgs.interface';
+import { WorldImgs } from './interfaces/world-imgs.interface';
 import { AssetsService } from 'src/assets/assets.service';
 
 @Injectable()

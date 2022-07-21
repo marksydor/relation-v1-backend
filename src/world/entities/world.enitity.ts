@@ -8,6 +8,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   OneToMany,
   OneToOne,
@@ -27,6 +28,7 @@ export class WorldEntity {
   description: string;
 
   @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
+  @JoinColumn()
   mainImg?: AssetsEntity;
 
   @OneToMany(() => PlaceEntity, (place) => place.world)

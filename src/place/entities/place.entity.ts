@@ -7,6 +7,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   OneToOne,
@@ -50,6 +51,7 @@ export class PlaceEntity {
     description: 'Main image of the place',
     type: () => AssetsEntity,
   })
+  @JoinColumn()
   @OneToOne(() => AssetsEntity, { cascade: true, eager: true })
   mainImg?: AssetsEntity;
 
